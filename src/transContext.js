@@ -13,6 +13,12 @@ export const TransactionContext = createContext(initialTransactions);
 export const TransactionProvider = ({ children }) => {
   let [state, dispatch] = useReducer(TransactionReducer, initialTransactions);
 
+  function deleteTransaction(id) {
+    dispatch({
+      type: "DELETE_TRANSACTION",
+      payload: id,
+    });
+  }
   function addTransaction(transObj) {
     dispatch({
       type: "ADD_TRANSACTION",
@@ -28,6 +34,7 @@ export const TransactionProvider = ({ children }) => {
       value={{
         transactions: state,
         addTransaction,
+        deleteTransaction,
       }}
     >
       {children}

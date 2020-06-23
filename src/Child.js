@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { TransactionContext } from "./transContext";
-//import { addTransaction } from "./transContext";
 
 function Child() {
-  let { transactions, addTransaction } = useContext(TransactionContext);
+  let { transactions, addTransaction, deleteTransaction } = useContext(
+    TransactionContext
+  );
   let [newDesc, setDesc] = useState("");
   let [newAmount, setAmount] = useState(0);
 
@@ -21,6 +22,9 @@ function Child() {
     setDesc("");
     setAmount(0);
   };
+  deleteTransaction({
+    transactions,
+  });
 
   const getIncome = () => {
     let income = 0;
@@ -59,9 +63,15 @@ function Child() {
       <ul className="transaction-list">
         {transactions.map((transObj, int) => {
           return (
-            <li key={int}>
+            <li key={int} className={transObj.amount < 0 ? "minus" : "plus"}>
               <span>{transObj.desc}</span>
               <span>${transObj.amount}</span>
+              <button
+                onClick={() => deleteTransaction(transactions.id)}
+                className="delete-btn"
+              >
+                x
+              </button>
             </li>
           );
         })}
